@@ -5,135 +5,217 @@
   <title>Kullanıcı Yorumları</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap" rel="stylesheet">
   <style>
-    body { 
-      background: #fff; 
-      font-family: 'Montserrat', sans-serif; 
-      margin:0; 
-      padding:40px 0;
+    body {
+      background: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 40px 0;
+      text-align: center;
     }
-    .yorum-panel {
-      max-width: 440px; 
-      margin:0 auto;
-      background: #fff; 
-      border-radius: 15px; 
-      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
-      padding:32px 24px;
-      position:relative;
-      text-align:center;
+    .yorum-alan {
+      margin: 70px auto 0 auto;
+      padding: 0;
+      max-width: 650px;
+      min-height: 140px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 16px;
+      box-shadow: none;
+    }
+    .yorum-isim {
+      color: #227242;
+      font-size: 20px;
+      margin-bottom: 2px;
       font-weight: 700;
-      transition: opacity 0.7s;
-      opacity: 1;
-      min-height: 250px;
     }
-    .yorum-bas { font-size: 21px; margin-bottom:2px; color:#1a5d3d; font-weight:700;}
-    .yorum-alt { color:#555; font-size:15px; margin-bottom:8px; font-weight:700;}
-    .yorum-metin { font-size:17px; margin-bottom:15px; color:#333; font-weight:700;}
-    .yorum-puan { color:gold; font-size:19px; letter-spacing:1px; font-weight:700;}
-    .yorum-tarih { font-size:13px; color:#9a9a9a; font-weight:700;}
-    .yorum-begen { font-size:13px; color:#d44; margin-top:8px; user-select:none; font-weight:700;}
-    .yorum-begen .kalp { color:#e54; font-size:18px; vertical-align:middle; margin-right:4px; }
+    .yorum-alt {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+    .yorum-metin {
+      font-size: 19px;
+      margin-top: 18px;
+      margin-bottom: 0;
+      color: #222;
+      font-weight: 700;
+      line-height: 1.14;
+    }
+    .yorum-begen {
+      font-size: 14px;
+      color: #d44;
+      margin-bottom: 7px;
+      margin-top: -4px !important;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      user-select: none;
+    }
+    .yorum-begen .kalp {
+      color:#e54;
+      font-size:19px;
+      transition: transform 0.15s;
+    }
+    .begen-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 4px 0 0;
+      display: flex;
+      align-items: center;
+    }
+    .begen-btn:active .kalp {
+      transform: scale(1.23);
+    }
     .kontrol {
-      margin: 8px auto 0 auto;
+      margin: 3px auto 0 auto;
       display: flex;
       justify-content: center;
-      gap: 30px;
-      width: 75px;
+      gap: 35px;
+      width: 80px;
     }
     .kontrol button {
       background: none;
       border: none;
-      font-size: 22px;
-      color: #1a5d3d;
-      font-weight: 700;
       cursor: pointer;
-      padding: 2px 8px;
+      padding: 2px;
       border-radius: 50%;
-      transition: background 0.2s;
-      line-height: 1;
+      transition: background 0.16s;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kontrol button svg {
+      width: 24px;
+      height: 24px;
+      fill: #1a5d3d;
+      stroke: #1a5d3d;
+      stroke-width: 2.5;
     }
     .kontrol button:hover { background: #eaf7f1; }
-    @media(max-width:600px){ 
-      .yorum-panel{padding:18px 3vw; min-height:190px;}
-      .yorum-metin{font-size:15px;}
+    .yorum-formu {
+      margin: 40px auto 0 auto;
+      background: rgba(255,255,255,0.55);
+      padding: 18px 18px 12px 18px;
+      border-radius: 13px;
+      box-shadow: none;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      align-items: stretch;
+      border: 1px solid #eaeaea;
     }
-    .fade { opacity:0; }
-    .show { opacity:1; }
+    .yorum-formu input,
+    .yorum-formu textarea {
+      font-family: inherit;
+      font-size: 15px;
+      padding: 7px 9px;
+      border-radius: 6px;
+      border: 1px solid #c1d9ca;
+      outline: none;
+      resize: none;
+      font-weight: 600;
+    }
+    .yorum-formu textarea { min-height: 48px; }
+    .yorum-formu button {
+      background: #227242;
+      color: #fff;
+      border: none;
+      padding: 9px 0;
+      border-radius: 7px;
+      font-size: 16px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.18s;
+    }
+    .yorum-formu button:hover { background: #155a33; }
+    .form-gonderildi {
+      color: #1a5d3d;
+      font-size: 16px;
+      margin-top: 15px;
+      font-weight: 700;
+    }
+    @media(max-width:700px) {
+      .yorum-alan {margin-top: 40px; min-height: 110px;}
+      .yorum-isim {font-size: 16px;}
+      .yorum-metin {font-size: 15px;}
+      .yorum-formu {margin-top:30px;}
+    }
+    .fade { opacity:0; transition: opacity 0.6s;}
+    .show { opacity:1; transition: opacity 0.6s;}
   </style>
 </head>
 <body>
-  <div id="yorumKutusu" class="yorum-panel show"></div>
+  <div id="yorumAlan" class="yorum-alan show"></div>
   <div class="yorum-begen" id="begenDiv"></div>
   <div class="kontrol">
-    <button onclick="geri()" aria-label="Geri">&#8592;</button>
-    <button onclick="ileri()" aria-label="İleri">&#8594;</button>
+    <button onclick="geri()" aria-label="Geri">
+      <svg viewBox="0 0 24 24"><polyline points="16 4 8 12 16 20" fill="none"/></svg>
+    </button>
+    <button onclick="ileri()" aria-label="İleri">
+      <svg viewBox="0 0 24 24"><polyline points="8 4 16 12 8 20" fill="none"/></svg>
+    </button>
   </div>
+  <form class="yorum-formu" id="yorumFormu" autocomplete="off" onsubmit="gonderForm(event)">
+    <div style="font-size:17px;font-weight:700;color:#227242;margin-bottom:7px;">Siz de yorum bırakın</div>
+    <input type="text" id="adSoyad" placeholder="Adınız" maxlength="22" required>
+    <input type="text" id="sehir" placeholder="Şehir" maxlength="15" required>
+    <textarea id="yorumText" placeholder="Yorumunuz" maxlength="140" required></textarea>
+    <button type="submit">Yorumu Gönder</button>
+    <div id="formSonuc"></div>
+  </form>
 <script>
+const isimler = [
+  "Seda K.", "Kadir B.", "Büşra U.", "Okan Y.", "Hatice T.",
+  "Furkan A.", "Gülşah E.", "Ece S.", "Yasin K.", "Esra A.",
+  "Zeynep Ç.", "Serkan D.", "Murat Ç.", "Derya B.", "Meltem T.",
+  "Şahin G.", "İrem T.", "Hüseyin K.", "Melis D.", "Cihan B.",
+  "Tuğba S.", "Ayhan O.", "Canan G.", "Erhan L.", "Betül A.",
+  "Sevgi M.", "Enes Y.", "Nilüfer Z.", "Fatih O.", "Deniz N.",
+  "Emine Ş.", "Baran K.", "Mehmet Ö.", "Nuran K.", "Burcu D.",
+  "Arda C.", "Özlem H.", "Elif Y.", "Mert P.", "Hande C."
+];
 const yorumlar = [
-  {
-    isim: "Ayşe Y.",
-    sehir: "Eskişehir",
-    puan: "★★★★★",
-    yorum: "Aile engelimiz çözüldü, şükürler olsun.",
-    tarih: "2025-12-28",
-    begen: 74
-  },
-  {
-    isim: "Mehmet K.",
-    sehir: "Eskişehir",
-    puan: "★★★★★",
-    yorum: "3 günde sonuç aldım, kesinlikle tavsiye ederim.",
-    tarih: "2025-03-06",
-    begen: 111
-  },
-  {
-    isim: "Zeynep D.",
-    sehir: "Trabzon",
-    puan: "★★★★★",
-    yorum: "Aile engelimiz çözüldü, şükürler olsun.",
-    tarih: "2025-08-12",
-    begen: 258
-  },
   {
     isim: "Ali T.",
     sehir: "Eskişehir",
-    puan: "★★★★★",
     yorum: "Yuvamız yıkılmadan toparladık, teşekkürler hocam.",
     tarih: "2025-01-22",
     begen: 74
   },
   {
+    isim: "Ayşe Y.",
+    sehir: "İzmir",
+    yorum: "Aile engelimiz çözüldü, şükürler olsun.",
+    tarih: "2025-12-28",
+    begen: 114
+  },
+  {
     isim: "Fatma B.",
     sehir: "Bursa",
-    puan: "★★★★★",
     yorum: "Soğutma büyüsü vardı, temizlendi.",
     tarih: "2025-04-28",
-    begen: 200
-  },
-  // ... (benzer şekilde 45 adet daha ekle, her biri farklı olsun!)
-  {
-    isim: "Halil Ş.",
-    sehir: "Gaziantep",
-    puan: "★★★★★",
-    yorum: "İlk başta tereddüt ettim ama gerçekmiş.",
-    tarih: "2025-08-20",
-    begen: 273
+    begen: 95
   },
   {
-    isim: "Sibel Z.",
-    sehir: "Ankara",
-    puan: "★★★★★",
-    yorum: "Hocamla iletişimde çok içim rahat etti.",
-    tarih: "2025-10-23",
-    begen: 285
+    isim: "Mehmet K.",
+    sehir: "İstanbul",
+    yorum: "3 günde sonuç aldım, kesinlikle tavsiye ederim.",
+    tarih: "2025-03-06",
+    begen: 131
   }
 ];
-
-while(yorumlar.length < 50){
+while(yorumlar.length < 20){
   let n = yorumlar.length+10;
   yorumlar.push({
-    isim: `Kullanıcı ${n}`,
+    isim: isimler[(yorumlar.length+3) % isimler.length],
     sehir: ["İstanbul","Ankara","İzmir","Bursa","Konya","Antalya","Gaziantep","Trabzon"][n%8],
-    puan: "★★★★★",
     yorum: ["Gerçekten çok etkili bir uygulama oldu.","Soğutma büyüsü vardı, temizlendi.","Kısmet açma işlemi sonrası işlerim düzeldi.","Yuvamız yıkılmadan toparladık, teşekkürler hocam.","Aile engelimiz çözüldü, şükürler olsun.","İlk başta tereddüt ettim ama gerçekmiş."][n%6],
     tarih: `2025-${String((n%12)+1).padStart(2,'0')}-${String((n%28)+1).padStart(2,'0')}`,
     begen: 70+n*2
@@ -141,25 +223,33 @@ while(yorumlar.length < 50){
 }
 
 let idx = 0;
-const kutu = document.getElementById("yorumKutusu");
+const alan = document.getElementById("yorumAlan");
 const begenDiv = document.getElementById("begenDiv");
 
 function kutuHTML(y) {
-return `
-  <div class="yorum-bas">${y.isim} <span class="yorum-puan">${y.puan}</span></div>
-  <div class="yorum-alt">${y.sehir} • <span class="yorum-tarih">${y.tarih}</span></div>
-  <div class="yorum-metin">“${y.yorum}”</div>
-`;}
+  return `
+    <div class="yorum-isim">${y.isim}</div>
+    <div class="yorum-alt">${y.sehir} • <span>${y.tarih}</span></div>
+    <div class="yorum-metin">“${y.yorum}”</div>
+  `;
+}
 
 function goster() {
-  kutu.classList.remove("show");
-  kutu.classList.add("fade");
+  alan.classList.remove("show");
+  alan.classList.add("fade");
   setTimeout(()=>{
-    kutu.innerHTML = kutuHTML(yorumlar[idx]);
-    begenDiv.innerHTML = `<span class="kalp">❤</span>${yorumlar[idx].begen} kişi faydalı buldu`;
-    kutu.classList.remove("fade");
-    kutu.classList.add("show");
-  },400);
+    alan.innerHTML = kutuHTML(yorumlar[idx]);
+    let key = "begenilen_" + idx;
+    let begenildi = !!localStorage.getItem(key);
+    begenDiv.innerHTML = `
+      <button class="begen-btn" onclick="begenTikla(event)" ${begenildi ? "disabled" : ""}>
+        <span class="kalp" style="${begenildi ? 'opacity:0.45;' : ''}">❤</span>
+      </button>
+      <span id="begenSayi">${yorumlar[idx].begen}</span> kişi faydalı buldu
+    `;
+    alan.classList.remove("fade");
+    alan.classList.add("show");
+  },300);
 }
 function ileri() {
   idx = (idx+1)%yorumlar.length; goster();
@@ -167,8 +257,28 @@ function ileri() {
 function geri() {
   idx = (idx-1+yorumlar.length)%yorumlar.length; goster();
 }
+function begenTikla(e){
+  e.preventDefault();
+  let key = "begenilen_" + idx;
+  if(localStorage.getItem(key)) return;
+  yorumlar[idx].begen++;
+  document.getElementById("begenSayi").innerText = yorumlar[idx].begen;
+  localStorage.setItem(key, "1");
+  e.currentTarget.disabled = true;
+  e.currentTarget.querySelector('.kalp').style.opacity = "0.45";
+}
 goster();
 setInterval(ileri,10000);
+
+// Form gönderme
+function gonderForm(e){
+  e.preventDefault();
+  document.getElementById("formSonuc").innerHTML = '<div class="form-gonderildi">Yorum gönderildi, teşekkürler!</div>';
+  document.getElementById("adSoyad").value = "";
+  document.getElementById("sehir").value = "";
+  document.getElementById("yorumText").value = "";
+  setTimeout(()=>{ document.getElementById("formSonuc").innerHTML = ""; }, 3000);
+}
 </script>
 </body>
 </html>
