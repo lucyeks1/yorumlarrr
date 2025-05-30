@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kullanıcı Yorumları</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      background: #fff; 
+      font-family: 'Montserrat', sans-serif; 
+      margin:0; 
+      padding:40px 0;
+    }
+    .yorum-panel {
+      max-width: 440px; 
+      margin:0 auto;
+      background: #fff; 
+      border-radius: 15px; 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+      padding:32px 24px;
+      position:relative;
+      text-align:center;
+      font-weight: 700;
+      transition: opacity 0.7s;
+      opacity: 1;
+      min-height: 350px;
+    }
+    .yorum-foto {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      border: 2.5px solid #1a5d3d;
+      margin-bottom: 13px;
+      object-fit: cover;
+    }
+    .yorum-bas { font-size: 21px; margin-bottom:2px; color:#1a5d3d; font-weight:700;}
+    .yorum-alt { color:#555; font-size:15px; margin-bottom:8px; font-weight:700;}
+    .yorum-metin { font-size:17px; margin-bottom:15px; color:#333; font-weight:700;}
+    .yorum-puan { color:gold; font-size:19px; letter-spacing:1px; font-weight:700;}
+    .yorum-tarih { font-size:13px; color:#9a9a9a; font-weight:700;}
+    .yorum-begen { font-size:13px; color:#d44; margin-top:8px; user-select:none; font-weight:700;}
+    .yorum-begen .kalp { color:#e54; font-size:18px; vertical-align:middle; margin-right:4px; }
+    .kontrol {
+      margin-top: 18px;
+      display:flex;
+      justify-content: center;
+      gap:20px;
+    }
+    .kontrol button {
+      background: #1a5d3d;
+      color: #fff;
+      font-family: 'Montserrat',sans-serif;
+      font-weight:700;
+      font-size:16px;
+      border:none;
+      border-radius:9px;
+      padding: 10px 23px;
+      cursor:pointer;
+      transition:background 0.2s;
+    }
+    .kontrol button:hover { background: #237147; }
+    @media(max-width:600px){ 
+      .yorum-panel{padding:18px 3vw; min-height:280px;}
+      .yorum-metin{font-size:15px;}
+    }
+    .fade { opacity:0; }
+    .show { opacity:1; }
+  </style>
+</head>
+<body>
+  <div id="yorumKutusu" class="yorum-panel show"></div>
+  <div class="kontrol">
+    <button onclick="geri()">← Geri</button>
+    <button onclick="ileri()">İleri →</button>
+  </div>
+<script>
+const yorumlar = [
+  {
+    foto: "https://randomuser.me/api/portraits/women/12.jpg",
+    isim: "Ayşe Y.",
+    sehir: "Eskişehir",
+    puan: "★★★★★",
+    yorum: "Aile engelimiz çözüldü, şükürler olsun.",
+    tarih: "2025-12-28",
+    begen: 74
+  },
+  {
+    foto: "https://randomuser.me/api/portraits/men/13.jpg",
+    isim: "Mehmet K.",
+    sehir: "Eskişehir",
+    puan: "★★★★★",
+    yorum: "3 günde sonuç aldım, kesinlikle tavsiye ederim.",
+    tarih: "2025-03-06",
+    begen: 111
+  },
+  {
+    foto: "https://randomuser.me/api/portraits/women/24.jpg",
+    isim: "Zeynep D.",
+    sehir: "Trabzon",
+    puan: "★★★★★",
+    yorum: "Aile engelimiz çözüldü, şükürler olsun.",
+    tarih: "2025-08-12",
+    begen: 258
+  },
+  {
+    foto: "https://randomuser.me/api/portraits/men/45.jpg",
+    isim: "Ali T.",
+    sehir: "Eskişehir",
+    puan: "★★★★★",
+    yorum: "Yuvamız yıkılmadan toparladık, teşekkürler hocam.",
+    tarih: "2025-01-22",
+    begen: 74
+  },
+  {
+    foto: "https://randomuser.me/api/portraits/women/44.jpg",
+    isim: "Fatma B.",
+    sehir: "Bursa",
+    puan: "★★★★★",
+    yorum: "Soğutma büyüsü vardı, temizlendi.",
+    tarih: "2025-04-28",
+    begen: 200
+  },
+  // ... (benzer şekilde 45 adet daha ekle, her biri farklı olsun!)
+  {
+    foto: "https://randomuser.me/api/portraits/men/20.jpg",
+    isim: "Halil Ş.",
+    sehir: "Gaziantep",
+    puan: "★★★★★",
+    yorum: "İlk başta tereddüt ettim ama gerçekmiş.",
+    tarih: "2025-08-20",
+    begen: 273
+  },
+  {
+    foto: "https://randomuser.me/api/portraits/women/36.jpg",
+    isim: "Sibel Z.",
+    sehir: "Ankara",
+    puan: "★★★★★",
+    yorum: "Hocamla iletişimde çok içim rahat etti.",
+    tarih: "2025-10-23",
+    begen: 285
+  }
+];
+
+while(yorumlar.length < 50){
+  // Profilleri random doldur!
+  let n = yorumlar.length+10;
+  yorumlar.push({
+    foto:`https://randomuser.me/api/portraits/${n%2==0?'women':'men'}/${n}.jpg`,
+    isim: `Kullanıcı ${n}`,
+    sehir: ["İstanbul","Ankara","İzmir","Bursa","Konya","Antalya","Gaziantep","Trabzon"][n%8],
+    puan: "★★★★★",
+    yorum: ["Gerçekten çok etkili bir uygulama oldu.","Soğutma büyüsü vardı, temizlendi.","Kısmet açma işlemi sonrası işlerim düzeldi.","Yuvamız yıkılmadan toparladık, teşekkürler hocam.","Aile engelimiz çözüldü, şükürler olsun.","İlk başta tereddüt ettim ama gerçekmiş."][n%6],
+    tarih: `2025-${String((n%12)+1).padStart(2,'0')}-${String((n%28)+1).padStart(2,'0')}`,
+    begen: 70+n*2
+  });
+}
+
+let idx = 0;
+const kutu = document.getElementById("yorumKutusu");
+
+function kutuHTML(y) {
+return `
+  <img src="${y.foto}" class="yorum-foto" alt="${y.isim}">
+  <div class="yorum-bas">${y.isim} <span class="yorum-puan">${y.puan}</span></div>
+  <div class="yorum-alt">${y.sehir} • <span class="yorum-tarih">${y.tarih}</span></div>
+  <div class="yorum-metin">“${y.yorum}”</div>
+  <div class="yorum-begen"><span class="kalp">❤</span>${y.begen} kişi faydalı buldu</div>
+`;}
+
+function goster() {
+  kutu.classList.remove("show");
+  kutu.classList.add("fade");
+  setTimeout(()=>{
+    kutu.innerHTML = kutuHTML(yorumlar[idx]);
+    kutu.classList.remove("fade");
+    kutu.classList.add("show");
+  },400);
+}
+function ileri() {
+  idx = (idx+1)%yorumlar.length; goster();
+}
+function geri() {
+  idx = (idx-1+yorumlar.length)%yorumlar.length; goster();
+}
+goster();
+setInterval(ileri,10000);
+</script>
+</body>
+</html>
