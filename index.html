@@ -5,10 +5,16 @@
   <title>Kullanıcı Yorumları</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap" rel="stylesheet">
   <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     body {
       background: #fff;
       font-family: 'Montserrat', sans-serif;
-      margin: 0;
       padding: 40px 0;
       text-align: center;
     }
@@ -139,7 +145,8 @@
       .yorum-alan {
         margin: 70px auto 0 auto;
         padding: 0;
-        max-width: 650px;
+        width: 100%;
+        max-width: 100%;
         min-height: 110px;
         background: rgba(255,255,255,0.75);
         border-radius: 16px;
@@ -181,7 +188,7 @@
       {isim: "Ali T.", sehir: "Eskişehir", yorum: "Yuvamız yıkılmadan toparladık, teşekkürler hocam.", tarih: "2025-01-22", begen: 74},
       {isim: "Ayşe Y.", sehir: "İzmir", yorum: "Aile engelimiz çözüldü, şükürler olsun.", tarih: "2025-12-28", begen: 114},
       {isim: "Fatma B.", sehir: "Bursa", yorum: "Soğutma büyüsü vardı, temizlendi.", tarih: "2025-04-28", begen: 95},
-      {isim: "Mehmet K.", sehir: "İstanbul", yorum: "3 günde sonuç aldım, kesinlikle tavsiye ederim.", tarih: "2025-03-06", begen: 131}
+      {isim: "Mehmet K.", sehir: "İstanbul", yorum: "3 gün içinde sonuç aldım, kesinlikle tavsiye ederim.", tarih: "2025-03-06", begen: 131}
     ];
     let idx = 0;
     const alan = document.getElementById("yorumAlan");
