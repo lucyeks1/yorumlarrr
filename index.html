@@ -23,14 +23,7 @@
       font-weight: 700;
       transition: opacity 0.7s;
       opacity: 1;
-      min-height: 350px;
-    }
-    .yorum-foto {
-      width: 68px; height: 68px;
-      border-radius: 50%;
-      border: 2.5px solid #1a5d3d;
-      margin-bottom: 13px;
-      object-fit: cover;
+      min-height: 250px;
     }
     .yorum-bas { font-size: 21px; margin-bottom:2px; color:#1a5d3d; font-weight:700;}
     .yorum-alt { color:#555; font-size:15px; margin-bottom:8px; font-weight:700;}
@@ -40,26 +33,27 @@
     .yorum-begen { font-size:13px; color:#d44; margin-top:8px; user-select:none; font-weight:700;}
     .yorum-begen .kalp { color:#e54; font-size:18px; vertical-align:middle; margin-right:4px; }
     .kontrol {
-      margin-top: 18px;
-      display:flex;
+      margin: 8px auto 0 auto;
+      display: flex;
       justify-content: center;
-      gap:20px;
+      gap: 30px;
+      width: 75px;
     }
     .kontrol button {
-      background: #1a5d3d;
-      color: #fff;
-      font-family: 'Montserrat',sans-serif;
-      font-weight:700;
-      font-size:16px;
-      border:none;
-      border-radius:9px;
-      padding: 10px 23px;
-      cursor:pointer;
-      transition:background 0.2s;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #1a5d3d;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 50%;
+      transition: background 0.2s;
+      line-height: 1;
     }
-    .kontrol button:hover { background: #237147; }
+    .kontrol button:hover { background: #eaf7f1; }
     @media(max-width:600px){ 
-      .yorum-panel{padding:18px 3vw; min-height:280px;}
+      .yorum-panel{padding:18px 3vw; min-height:190px;}
       .yorum-metin{font-size:15px;}
     }
     .fade { opacity:0; }
@@ -68,14 +62,14 @@
 </head>
 <body>
   <div id="yorumKutusu" class="yorum-panel show"></div>
+  <div class="yorum-begen" id="begenDiv"></div>
   <div class="kontrol">
-    <button onclick="geri()">← Geri</button>
-    <button onclick="ileri()">İleri →</button>
+    <button onclick="geri()" aria-label="Geri">&#8592;</button>
+    <button onclick="ileri()" aria-label="İleri">&#8594;</button>
   </div>
 <script>
 const yorumlar = [
   {
-    foto: "https://randomuser.me/api/portraits/women/12.jpg",
     isim: "Ayşe Y.",
     sehir: "Eskişehir",
     puan: "★★★★★",
@@ -84,7 +78,6 @@ const yorumlar = [
     begen: 74
   },
   {
-    foto: "https://randomuser.me/api/portraits/men/13.jpg",
     isim: "Mehmet K.",
     sehir: "Eskişehir",
     puan: "★★★★★",
@@ -93,7 +86,6 @@ const yorumlar = [
     begen: 111
   },
   {
-    foto: "https://randomuser.me/api/portraits/women/24.jpg",
     isim: "Zeynep D.",
     sehir: "Trabzon",
     puan: "★★★★★",
@@ -102,7 +94,6 @@ const yorumlar = [
     begen: 258
   },
   {
-    foto: "https://randomuser.me/api/portraits/men/45.jpg",
     isim: "Ali T.",
     sehir: "Eskişehir",
     puan: "★★★★★",
@@ -111,7 +102,6 @@ const yorumlar = [
     begen: 74
   },
   {
-    foto: "https://randomuser.me/api/portraits/women/44.jpg",
     isim: "Fatma B.",
     sehir: "Bursa",
     puan: "★★★★★",
@@ -121,7 +111,6 @@ const yorumlar = [
   },
   // ... (benzer şekilde 45 adet daha ekle, her biri farklı olsun!)
   {
-    foto: "https://randomuser.me/api/portraits/men/20.jpg",
     isim: "Halil Ş.",
     sehir: "Gaziantep",
     puan: "★★★★★",
@@ -130,7 +119,6 @@ const yorumlar = [
     begen: 273
   },
   {
-    foto: "https://randomuser.me/api/portraits/women/36.jpg",
     isim: "Sibel Z.",
     sehir: "Ankara",
     puan: "★★★★★",
@@ -141,10 +129,8 @@ const yorumlar = [
 ];
 
 while(yorumlar.length < 50){
-  // Profilleri random doldur!
   let n = yorumlar.length+10;
   yorumlar.push({
-    foto:`https://randomuser.me/api/portraits/${n%2==0?'women':'men'}/${n}.jpg`,
     isim: `Kullanıcı ${n}`,
     sehir: ["İstanbul","Ankara","İzmir","Bursa","Konya","Antalya","Gaziantep","Trabzon"][n%8],
     puan: "★★★★★",
@@ -156,14 +142,13 @@ while(yorumlar.length < 50){
 
 let idx = 0;
 const kutu = document.getElementById("yorumKutusu");
+const begenDiv = document.getElementById("begenDiv");
 
 function kutuHTML(y) {
 return `
-  <img src="${y.foto}" class="yorum-foto" alt="${y.isim}">
   <div class="yorum-bas">${y.isim} <span class="yorum-puan">${y.puan}</span></div>
   <div class="yorum-alt">${y.sehir} • <span class="yorum-tarih">${y.tarih}</span></div>
   <div class="yorum-metin">“${y.yorum}”</div>
-  <div class="yorum-begen"><span class="kalp">❤</span>${y.begen} kişi faydalı buldu</div>
 `;}
 
 function goster() {
@@ -171,6 +156,7 @@ function goster() {
   kutu.classList.add("fade");
   setTimeout(()=>{
     kutu.innerHTML = kutuHTML(yorumlar[idx]);
+    begenDiv.innerHTML = `<span class="kalp">❤</span>${yorumlar[idx].begen} kişi faydalı buldu`;
     kutu.classList.remove("fade");
     kutu.classList.add("show");
   },400);
